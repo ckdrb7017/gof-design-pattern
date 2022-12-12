@@ -1,0 +1,3 @@
+/build/classes/kotlin/main/example/*
+/.gradle/*
+/build/*
