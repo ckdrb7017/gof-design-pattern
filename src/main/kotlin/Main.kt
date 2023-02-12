@@ -1,10 +1,17 @@
-import example.proxy.PrinterInterface
-import example.proxy.PrinterProxy
+import example.dynamicproxy.HttpMethodInterface
+import example.dynamicproxy.HttpProxyHandler
+import java.lang.reflect.Proxy
+
 
 fun main() {
-    val printer: PrinterInterface = PrinterProxy(name = "ChangGyu")
-    println("현재 이름은 ${printer.getPrinterName()} 입니다.")
-    printer.setPrinterName("Charles Lee")
-    println("현재 이름은 ${printer.getPrinterName()} 입니다.")
-    println("완료.")
+    val httpMethodInterface: HttpMethodInterface = Proxy.newProxyInstance(
+        HttpMethodInterface::class.java.classLoader,
+        arrayOf<Class<*>>(HttpMethodInterface::class.java),
+        HttpProxyHandler(target = null) // method 발생시 이벤트를 처리할 핸들러
+    ) as HttpMethodInterface
+
+    httpMethodInterface.get()
+    httpMethodInterface.post()
+    httpMethodInterface.put()
+    httpMethodInterface.delete()
 }
